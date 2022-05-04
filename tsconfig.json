@@ -10,6 +10,14 @@
       "noEmit": true,
       "strict": true,
       "target": "esnext",
+      "baseUrl": ".",
+      "paths": {
+        "*": ["src/*"],
+        "tests": ["tests/*"],
+        "@components/*": ["src/components/*"],
+        "@screens/*": ["src/screens/*"],
+        "@hooks/*": ["src/hooks/*"],
+      },
       "skipLibCheck": true
     },
     "exclude": [
