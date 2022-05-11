@@ -23,3 +23,9 @@ module.exports = {
     'react/jsx-filename-extension': [2, { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
   },
 };
+
+/**
+ * Ignore:
+ *  // eslint-disable-next-line import/prefer-default-export
+ *  // eslint-disable-next-line import/no-unresolved
+ */
