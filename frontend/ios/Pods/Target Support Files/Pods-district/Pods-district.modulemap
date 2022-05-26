@@ -1,0 +1,6 @@
+module Pods_district {
+  umbrella header "Pods-district-umbrella.h"
+
+  export *
+  module * { export * }
+}
