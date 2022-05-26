@@ -1,11 +1,21 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const port = 3000;
+const { graphqlHTTP } = require('express-graphql');
 
-app.use(express.json());
+const schema = {
+  // we will add this later
+};
+
 app.use(cors());
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema,
+    graphiql: true,
+    pretty: true
+  })
+);
 
-app.listen(port, () => {
-  console.log(`Rock album server is running on port ${port}.`);
-});
+app.listen(4000);
+console.log('SERVER OK');
