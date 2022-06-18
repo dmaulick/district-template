@@ -1,6 +1,8 @@
-const MongoDbRepo = require('../repository/mongoDbRepository');
+import { MongoDbRepo } from '../repository/mongoDbRepository.js';
 
-class NoteService {
+export class NoteService {
+  NoteRepository: MongoDbRepo
+
   constructor() {
     this.NoteRepository = new MongoDbRepo('Notes');
   }
@@ -9,17 +11,15 @@ class NoteService {
     return this.NoteRepository.getAll();
   }
 
-  updateNote(_id, opt) {
+  updateNote(_id: any, opt: any) {
     return this.NoteRepository.updateOne(_id, opt);
   }
 
-  deleteNote(_id) {
+  deleteNote(_id: any) {
     return this.NoteRepository.deleteOne(_id);
   }
 
-  createNote(opt) {
+  createNote(opt: any) {
     return this.NoteRepository.create(opt);
   }
 }
-
-module.exports = NoteService;

@@ -1,6 +1,7 @@
 import express from 'express';
 import { ApolloServer, gql } from 'apollo-server-express';
 import { setupDB } from './src/config/databaseConnection.js';
+import { NoteService } from './src/services/NoteService.js';
 const books = [
   {
     title: 'The Awakening',
@@ -18,9 +19,14 @@ const typeDefs = gql`
     author: String
   }
 
+  type Note {
+    content: String
+  }
+
   type Query {
     hello: String
     books: [Book]
+    notes: [Note]
   }
 
 
@@ -30,9 +36,15 @@ const typeDefs = gql`
 `;
 
 const resolvers = {
-  Query: {  
+  Query: {
     hello: () => 'Hello world!',
     books: () => books,
+    notes: async () => {
+      const noteService = new NoteService();
+      const notes = await noteService.getAllNotes();
+  
+      return notes;
+    }
   },
   Mutation: {
     addBook: (title: string, author: string) => {

@@ -1,4 +1,3 @@
-// const { Db, MongoClient, MongoClientOptions } = require('mongodb');
 import { Db, MongoClient, MongoClientOptions } from 'mongodb';
 
 let mongoDB: Db | undefined;
