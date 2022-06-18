@@ -1,5 +1,6 @@
-const express = require('express');
-const { ApolloServer, gql } = require('apollo-server-express');
+import express from 'express';
+import { ApolloServer, gql } from 'apollo-server-express';
+import { setupDB } from './src/config/databaseConnection.js';
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
@@ -10,13 +11,14 @@ const typeDefs = gql`
 
 // Provide resolver functions for your schema fields
 const resolvers = {
-  Query: {
+  Query: {  
     hello: () => 'Hello world!',
   },
 };
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
+setupDB(v => console.log(v));
 const app = express();
 
 const startServer = async () => {
