@@ -1,3 +1,5 @@
+import { gql } from '@apollo/client/core';
+import { useQuery } from '@apollo/client/react/hooks/useQuery';
 import { Box, Text, VStack } from 'native-base';
 import React, { memo, useMemo } from 'react';
 import { FlatList, ListRenderItemInfo } from 'react-native';
@@ -47,6 +49,15 @@ const renderSection = () => (
 );
 
 const CatalogScreenContent = memo(() => {
+  const { loading, error, data: data2 } = useQuery(gql`query {
+      notes {
+        _id
+        content
+      }
+    }`);
+
+  console.log('loading, error, data', loading, error, data2);
+
   const header = useMemo(() => (
     <Box marginX={gutter}>
       <VStack paddingTop={5} paddingBottom={8}>
