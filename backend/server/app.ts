@@ -1,22 +1,58 @@
 import express from 'express';
 import { ApolloServer, gql } from 'apollo-server-express';
 import { setupDB } from './src/config/databaseConnection.js';
+const books = [
+  {
+    title: 'The Awakening',
+    author: 'Kate Chopin',
+  },
+  {
+    title: 'City of Glass',
+    author: 'Paul Auster',
+  },
+];
 
-// Construct a schema, using GraphQL schema language
 const typeDefs = gql`
+  type Book {
+    title: String
+    author: String
+  }
+
   type Query {
     hello: String
+    books: [Book]
+  }
+
+
+  type Mutation {
+    addBook(title: String, author: String): Book
   }
 `;
 
-// Provide resolver functions for your schema fields
 const resolvers = {
   Query: {  
     hello: () => 'Hello world!',
+    books: () => books,
   },
+  Mutation: {
+    addBook: (title: string, author: string) => {
+      const newBook = {
+        title,
+        author,
+      };
+      console.log('New book:\n', newBook);
+      books.push(newBook);
+      return books;
+    }
+  }
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ 
+  typeDefs,
+  resolvers,
+  csrfPrevention: true,
+  cache: 'bounded', 
+});
 
 setupDB(v => console.log(v));
 const app = express();
