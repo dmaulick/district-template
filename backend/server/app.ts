@@ -1,63 +1,7 @@
+import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
-import { ApolloServer, gql } from 'apollo-server-express';
 import { setupDB } from './src/config/databaseConnection.js';
-import { NoteService } from './src/services/NoteService.js';
-const books = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster',
-  },
-];
-
-const typeDefs = gql`
-  type Book {
-    title: String
-    author: String
-  }
-
-  type Note {
-    content: String
-  }
-
-  type Query {
-    hello: String
-    books: [Book]
-    notes: [Note]
-  }
-
-
-  type Mutation {
-    addBook(title: String, author: String): Book
-  }
-`;
-
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world!',
-    books: () => books,
-    notes: async () => {
-      const noteService = new NoteService();
-      const notes = await noteService.getAllNotes();
-  
-      return notes;
-    }
-  },
-  Mutation: {
-    addBook: (title: string, author: string) => {
-      const newBook = {
-        title,
-        author,
-      };
-      console.log('New book:\n', newBook);
-      books.push(newBook);
-      return books;
-    }
-  }
-};
+import { resolvers, typeDefs } from './src/graphql/schema.js';
 
 const server = new ApolloServer({ 
   typeDefs,
